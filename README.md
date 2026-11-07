@@ -61,4 +61,4 @@ MP3解码使用 [minimp3](https://github.com/lieff/minimp3)，其CC0许可随 `i
 
 ## 下载安装
 
-[GitHub Releases](https://github.com/drw41823/pocket-studio-cardputer-adv/releases/latest) 提供 Windows x64 离线安装包和 M5Burner 完整镜像。[安装说明](docs/installing.md)。完整镜像烧录地址0x0，会重写内部存档；SD卡保留。
+[GitHub Releases](https://github.com/drw41823/pocket-studio-cardputer-adv/releases/latest) 提供 Windows x64 离线安装包及供手动烧录的完整镜像。[安装说明](docs/installing.md)。完整镜像烧录地址0x0，会重写内部存档；SD卡保留。
