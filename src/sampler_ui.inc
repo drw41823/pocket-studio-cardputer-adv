@@ -29,8 +29,9 @@ int16_t* reserveSample(unsigned bytes,bool replacing=false);
 void sampleSilence(){sampleControl.keys=0;++sampleControl.panic;publish();dirty=true;}
 void releaseSamplePCM(int16_t* data){if(!data||data==samplerData)return;for(const auto& s:synthSamples)if(s.data==data)return;std::free(data);}
 void dropSynthSampleCache(){for(auto& s:synthSamples){auto* old=const_cast<int16_t*>(s.data);s.data=nullptr;++s.generation;releaseSamplePCM(old);}publish();}
-bool ensureSamplerSD(){
+bool ensureSamplerSD(bool allowMount=true){
     if(sdOK){File root=SD.open("/");bool ok=bool(root);root.close();if(ok){samplerStoreOK=true;return true;}SD.end();sdOK=false;}
+    if(!allowMount){samplerStoreOK=false;return false;}
     sdOK=SD.begin(12,SPI,4000000)&&SD.cardType()!=CARD_NONE;samplerStoreOK=sdOK;
     if(!sdOK)tell("Insert SD to use sampler");return sdOK;
 }
@@ -47,8 +48,8 @@ bool writeSampleSlot(unsigned slot,const SamplePatch& patch){
     char final[64],temporary[64],backup[64];soundPaths(slot,final,temporary,backup);
     return writeSoundRecord(soundSD,final,temporary,backup,patch);
 }
-bool readSampleSlot(unsigned slot,SamplePatch& patch){
-    if(slot>=4||!ensureSamplerSD())return false;
+bool readSampleSlot(unsigned slot,SamplePatch& patch,bool allowMount=true){
+    if(slot>=4||!ensureSamplerSD(allowMount))return false;
     char final[64],temporary[64],backup[64];soundPaths(slot,final,temporary,backup);
     if(readSoundRecord(soundSD,final,patch)||readSoundRecord(soundSD,backup,patch))return true;
     if(samplerCheckMode||SD.exists(final)||SD.exists(backup))return false;

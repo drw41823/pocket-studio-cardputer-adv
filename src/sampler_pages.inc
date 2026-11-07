@@ -332,7 +332,7 @@ void drawWorkspace() {
     if(workspace==Workspace::Player){drawPlayer();return;}
     screen.fillScreen(ui::Background);screen.setTextSize(1);
     screen.fillRect(0,0,3,16,ui::Accent);
-    if(workspace==Workspace::Home) samplerText(7,3,"POCKET STUDIO 0.25");
+    if(workspace==Workspace::Home) samplerText(7,3,"POCKET STUDIO 0.25.1");
     else if(samplerPage==SamplerPage::Start||samplerPage==SamplerPage::SessionLoad||samplerPage==SamplerPage::Bases)samplerText(7,3,samplerPage==SamplerPage::Start?"START SOUND LAB":samplerPage==SamplerPage::SessionLoad?"OPEN SESSION":"BASIC SOURCES");
     else if(samplerPage==SamplerPage::Presets || samplerPage==SamplerPage::Rename) samplerText(7,3,samplerSaving?"SAVE SOUND / SD":"LOAD SOUND / SD");
     else if(samplerPage==SamplerPage::Tone){

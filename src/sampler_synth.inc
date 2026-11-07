@@ -12,8 +12,9 @@ void updateSynthSoundSlot(unsigned slot) {
 }
 __attribute__((noinline)) bool loadSynthSample(unsigned slot) {
     if(slot>=4)return false;if(synthSamples[slot].data)return true;
+    if(!sdOK){tell("Insert SD for SMP - using basic waves");return false;}
     SamplePatch patch;
-    if(!readSampleSlot(slot,patch)){tell("Sample sound slot empty / invalid");return false;}
+    if(!readSampleSlot(slot,patch,false)){tell(sdOK?"Sample sound slot empty / invalid":"Insert SD for SMP - using basic waves");return false;}
     int16_t* candidate=nullptr;bool shared=samplerData&&samplePatch.frames==patch.frames&&samplePatch.rate==patch.rate&&samplePatch.fingerprint==patch.fingerprint;
     if(shared)candidate=samplerData;
     else {
@@ -28,7 +29,6 @@ __attribute__((noinline)) bool loadSynthSample(unsigned slot) {
                 candidate[i]=int16_t(value*10000.f*std::min(1.f,t*500.f));
             }
         } else {
-            if(!sdOK)sdOK=SD.begin(12,SPI,4000000)&&SD.cardType()!=CARD_NONE;
             File file=sdOK?SD.open(patch.path,FILE_READ):File{};WavInfo info;
             ok=file&&file.size()<=0xffffffffu&&inspectWav(sampleReadAt,&file,uint32_t(file.size()),info)==WavError::None
                 &&info.frames==patch.frames&&info.rate==patch.rate&&decodeWav(sampleReadAt,&file,info,candidate,patch.frames);
@@ -53,12 +53,10 @@ void refreshSynthSamples() {
         }
         publish();resumeAudio();
     }
-    for(const auto& track:input.song.tracks)if(track.wave>=4)loadSynthSample(track.wave-4);
+    for(auto& track:input.song.tracks)if(track.wave>=4&&!loadSynthSample(track.wave-4)&&!sdOK){track.wave=0;dirty=true;}
 }
 __attribute__((noinline)) void nextSynthWave(unsigned track) {
     unsigned current=input.song.tracks[track].wave;
-    for(unsigned attempts=0;attempts<8;++attempts) {
-        current=(current+1)%8;
-        if(current<4||loadSynthSample(current-4)){input.song.tracks[track].wave=current;return;}
-    }
+    input.song.tracks[track].wave=nextSynthSource(current,sdOK,[](unsigned slot){return sdOK&&loadSynthSample(slot);});
+    if(!sdOK&&current>=3)tell("No SD - SMP skipped");
 }

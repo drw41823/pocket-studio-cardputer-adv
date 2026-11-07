@@ -14,7 +14,7 @@
 ## Pocket Studio建议资料
 
 - Name：Pocket Studio for Cardputer ADV
-- Version：0.25
+- Version：0.25.1
 - Device Type：选择与Cardputer ADV匹配的类别。暂未验证普通Cardputer，不应宣称兼容。
 - Github：https://github.com/drw41823/pocket-studio-cardputer-adv
 - 简介：面向Cardputer ADV的口袋音乐工作站，包含三条四复音旋律轨、独立鼓组、实时与STEP编曲、调内和弦与琶音器、录音与WAV采样、双振荡器和LFO，以及WAV/MP3播放器。采样器、音色素材与播放器需要SD卡。

@@ -7,8 +7,8 @@ import queue
 import sys
 import threading
 
-IMAGE = 'pocket-studio-v0.25-cardputer-adv-full.bin'
-SHA256 = '41f1af21f7ae9ba7128a7cf557b862f48e4888e2905440eef99ac9a74b6e0b7d'
+IMAGE = 'pocket-studio-v0.25.1-cardputer-adv-full.bin'
+SHA256 = '15fbda540957b3701d24e305704a8d507fa70d3bc22c25e6344a6f9929f35583'
 
 def image_path():
     return Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parent)) / IMAGE
@@ -36,11 +36,11 @@ def main():
 
     import tkinter as tk
     from tkinter import ttk, messagebox
-    root = tk.Tk(); root.title('Pocket Studio v0.25 · Cardputer ADV')
+    root = tk.Tk(); root.title('Pocket Studio v0.25.1 · Cardputer ADV')
     root.geometry('740x570'); root.minsize(680,520)
     frame = ttk.Frame(root, padding=22); frame.pack(fill='both', expand=True)
     ttk.Label(frame, text='Pocket Studio', font=('Microsoft YaHei UI', 25, 'bold')).pack(anchor='w')
-    ttk.Label(frame, text='v0.25  /  Cardputer ADV  /  Windows x64 离线安装').pack(anchor='w', pady=(0,16))
+    ttk.Label(frame, text='v0.25.1  /  Cardputer ADV  /  Windows x64 离线安装').pack(anchor='w', pady=(0,16))
     ttk.Label(frame, text='1. 用可传数据的 USB 线连接 Cardputer ADV。\n2. 选择它的串口，确认备份后点击“安装固件”。', justify='left').pack(anchor='w')
     row = ttk.Frame(frame); row.pack(fill='x', pady=14)
     port = tk.StringVar(); devices = ttk.Combobox(row, textvariable=port, state='readonly', width=54); devices.pack(side='left', fill='x', expand=True)

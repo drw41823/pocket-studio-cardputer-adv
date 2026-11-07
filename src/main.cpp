@@ -1,3 +1,4 @@
+#include "SynthSourceSelection.h"
 #include <Arduino.h>
 #include <M5Cardputer.h>
 #include <SD.h>
@@ -1059,7 +1060,7 @@ void setup() {
     M5Cardputer.Display.setRotation(0); M5Cardputer.Display.setBrightness(100);
     screen.setColorDepth(16); uiReady = screen.createSprite(135, 240) != nullptr; screen.setRotation(1);
     if (!uiReady) { M5Cardputer.Display.println("Canvas allocation failed"); return; }
-    screen.fillScreen(0x0842); text(4, 4, "Pocket Studio v0.25 checking..."); screen.pushSprite(0, 0);
+    screen.fillScreen(0x0842); text(4, 4, "Pocket Studio v0.25.1 checking..."); screen.pushSprite(0, 0);
     SPI.begin(40, 39, 14, 12); sdOK = SD.begin(12, SPI, 4000000) && SD.cardType() != CARD_NONE;
     localOK = localStore.begin("pocket-synth");
     samplerLegacyOK = samplerLegacy.begin("pocket-sampler",true); samplerStoreOK=sdOK;
@@ -1085,7 +1086,7 @@ void loop() {
     if(workspace==Workspace::Sampler&&micTake==MicTake::Idle&&millis()-lastSamplerSDCheck>=500){lastSamplerSDCheck=millis();if(!ensureSamplerSD()){sampleSilence();workspace=Workspace::Home;dirty=true;}}
     tickPlayer();refreshSynthSamples(); publish(); readBattery();
     while (Serial.available()) {char command=Serial.read();if(command=='V')runSamplerSDCheck();if(command=='P')runPlayerCheck();if (command == '?') {
-        Serial.printf("STUDIO 0.25 module=%u audio=%u heap=%u sample_frames=%lu sample_bytes=%lu voices=%u max_render_us=%lu sampler_store=%u mic_enabled=%u mic_running=%u take=%u captured=%u\n",
+        Serial.printf("STUDIO 0.25.1 module=%u audio=%u heap=%u sample_frames=%lu sample_bytes=%lu voices=%u max_render_us=%lu sampler_store=%u mic_enabled=%u mic_running=%u take=%u captured=%u\n",
             unsigned(workspace), unsigned(audioReady.load()), ESP.getFreeHeap(),
             (unsigned long)samplePatch.frames, (unsigned long)(samplePatch.frames * sizeof(int16_t)),
             samplerVoices.load(), (unsigned long)renderWorstUs.load(), unsigned(samplerStoreOK),unsigned(M5Cardputer.Mic.isEnabled()),unsigned(M5Cardputer.Mic.isRunning()),unsigned(micTake),micCompleted.load());
