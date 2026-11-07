@@ -53,8 +53,12 @@ python scripts/run-tests.py --zig /path/to/zig
 
 ## 第三方代码
 
-MP3解码使用 [minimp3](https://github.com/lieff/minimp3)，其CC0许可随 `include/third_party/minimp3/LICENSE` 保留。M5Stack与其他库通过PlatformIO下载，各自许可归原作者。此仓库尚未为项目自有代码指定开源许可证。
+MP3解码使用 [minimp3](https://github.com/lieff/minimp3)，其CC0许可随 `include/third_party/minimp3/LICENSE` 保留。M5Stack与其他库通过PlatformIO下载，各自许可归原作者。固件自有代码尚未指定开源许可证；安装器目录按GPLv2发布（见installer/LICENSE）。
 
 ## M5Burner
 
 [固件商场发布准备](docs/m5burner-publishing.md)：账号流程、资料清单、镜像格式及隐私注意事项。当前没有向商场发布固件。
+
+## 下载安装
+
+[GitHub Releases](https://github.com/drw41823/pocket-studio-cardputer-adv/releases/latest) 提供 Windows x64 离线安装包和 M5Burner 完整镜像。[安装说明](docs/installing.md)。完整镜像烧录地址0x0，会重写内部存档；SD卡保留。
